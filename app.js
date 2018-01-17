@@ -1,7 +1,7 @@
-const request = require('request')
 const yargs = require('yargs') //used to build interactive command line tools
 
-const geocode = require('./geocode/geocode.js')
+const weather = require('./weather/weather')
+const geocode = require('./geocode/geocode')
 
 //OPTIONS CONFIGURATION FOR USER INPUT IN COMMAND LINE
 const argv = yargs
@@ -17,19 +17,17 @@ const argv = yargs
   .alias('help', 'h')   //setting up help alias with 2 args $ node app.js --help
   .argv;                 //stores everything above in const argv
 
-console.log(argv)     //will log everything parsed by yargs
+// console.log(argv)     //will log everything parsed by yargs
 
-geocode.geocodeAddress(argv.address) //takes in address from argv command-line
+// geocode.geocodeAddress(argv.address) //takes in address from argv command-line
+weather.getWeather()
 
 /*
 
-Run code with:
+Run geocode with:
 $node app.js -a '488 Heatherhill Pl Waterloo'
 
 Here we input our desired address in the command line.
-App.js fetches formatted address, lat and lng.  The address is then passed to an encodedURI
-component, which is injected into the url.
-
-
+App.js passes in address from geocode.js, then returns result from api fetch
 
 */
