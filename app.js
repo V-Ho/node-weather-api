@@ -20,8 +20,9 @@ const argv = yargs
 // console.log(argv)     //will log everything parsed by yargs
 
 // geocode.geocodeAddress(argv.address) //takes in address from argv command-line
-weather.getWeather()
-
+weather.getWeather(43.448972, -80.5585481) 
+// lat = 43.448972
+// lng = -80.5585481
 /*
 
 Run geocode with:
