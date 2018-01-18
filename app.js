@@ -20,15 +20,26 @@ const argv = yargs
 // console.log(argv)     //will log everything parsed by yargs
 
 // geocode.geocodeAddress(argv.address) //takes in address from argv command-line
-weather.getWeather(43.448972, -80.5585481) 
-// lat = 43.448972
-// lng = -80.5585481
 /*
-
 Run geocode with:
 $node app.js -a '488 Heatherhill Pl Waterloo'
 
 Here we input our desired address in the command line.
 App.js passes in address from geocode.js, then returns result from api fetch
+*/
+weather.getWeather(43.448972, -80.5585481, (errorMsg, res) => {
+  if (errorMsg) {
+    console.log(errorMsg)
+  } else {
+    console.log(JSON.stringify(res, undefined, 2)) //undefined: filtering, 2: indent
+  }
+})
+/*
+Here we are calling the getWeather function from weather.js
+-Pass in lat, lng and callback fuction that takes in errorMsg & results as arguments
+-getWeather has dynamic url that takes is $lat and $lng passed in from app.js
+-getWeather makes HTTP req using lat & lng, and provides error, response, body
+-Calback function is fired after HTTP req gives response
+-Callback function provides us with either errorMsg or response obj (defined in getWeather)
 
 */
