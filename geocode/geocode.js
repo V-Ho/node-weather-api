@@ -1,7 +1,7 @@
 const request = require('request')
 
 
-exports.geocodeAddress = (address) => {
+exports.geocodeAddress = (address, callback) => {
   var encodedAddress = encodeURIComponent(address);
 
   request({
@@ -9,11 +9,13 @@ exports.geocodeAddress = (address) => {
     json: true  //data recieved as jsons
   }, (error, response, body) => {
     if (body.status === 'OK') {
-      // console.log(JSON.stringify(error, undefined, 2)) //shows JSON error in detail
-      // console.log(JSON.stringify(body, undefined, 2)) //shows JSON body in detail
-      console.log(`Address: ${body.results[0].formatted_address}`)
-      console.log(`Lat: ${body.results[0].geometry.location.lat} &
-        Lng: ${body.results[0].geometry.location.lng}`)
+      callback( undefined, {
+        // console.log(JSON.stringify(error, undefined, 2)) //shows JSON error in detail
+        // console.log(JSON.stringify(body, undefined, 2)) //shows JSON body in detail
+        address: body.results[0].formatted_address,
+        lat: body.results[0].geometry.location.lat,
+        lng: body.results[0].geometry.location.lng
+      })
     }
     else if (body.status === "ZERO_RESULTS") {
       console.log('Unable to find that address');
