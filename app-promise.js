@@ -21,7 +21,20 @@ var encodedAddress = encodeURIComponent(argv.address)
 geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCr9jxyudzQS03YhkjELuLSB0kKfREomi8&address=${encodedAddress}`
 
 axios.get(geocodeURL).then((res)=> {
+  if (res.data.status === 'ZERO_RESULTS') {
+    throw new Error('Unable to find that address')
+  }
   console.log(res.data)
+}).catch((e) => {
+  if (e.code === 'ENOTFOUND'){
+    console.log('unable to connect to API servers')
+  } else {
+    console.log(e.message) //shows the 'throw new error' msg
+  }
 })
 
-//axios gets URL and returns a promise
+/* Here axios gets URL and returns a promise
+
+- throw new error: tells node to stop process
+
+*/
