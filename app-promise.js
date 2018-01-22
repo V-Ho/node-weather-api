@@ -28,9 +28,16 @@ axios.get(geocodeURL).then((res)=> {
   var lng = res.data.results[0].geometry.location.lng;
   var weatherURL = `https://api.darksky.net/forecast/48855f5d4c031cbcf4b873fd2e97c61a/${lat},${lng}?units=si`
 console.log(res.data.results[0].formatted_address)
+console.log(`Located at lat ${res.data.results[0].geometry.location.lat} & lng: ${res.data.results[0].geometry.location.lng}`)
   // console.log('res.data: ', res.data)
   // console.log('res.data.results', res.data.results)
   // console.log('res.data.results[0]', res.data.results[0])
+  return axios.get(weatherURL)
+}).then((res) => {
+  var temp = res.data.currently.temperature;
+  var apparentTemp = res.data.currently.apparentTemperature;
+
+  console.log(`It's currently ${temp}, and feels like ${apparentTemp}`)
 }).catch((e) => {
   if (e.code === 'ENOTFOUND'){
     console.log('unable to connect to API servers')
@@ -39,7 +46,12 @@ console.log(res.data.results[0].formatted_address)
   }
 })
 
-/* Here axios gets URL and returns a promise
+/* Here we are using axios to chain promises, which we access using .then
+- Use axio.get to request geocode url injecting arg.address from the command line
+- The request retrieves and stores lat & lng, which is injected into weather url
+- Then we return another promise when making request to weather url
+- From our request we retrieve temp and apparentTemp for the address
+- If any errors are thrown during either promise, catch will be fired & print error msg
 
 - throw new error: tells node to stop process
 
