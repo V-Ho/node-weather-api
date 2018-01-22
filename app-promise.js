@@ -24,7 +24,13 @@ axios.get(geocodeURL).then((res)=> {
   if (res.data.status === 'ZERO_RESULTS') {
     throw new Error('Unable to find that address')
   }
-  console.log(res.data)
+  var lat = res.data.results[0].geometry.location.lat;
+  var lng = res.data.results[0].geometry.location.lng;
+  var weatherURL = `https://api.darksky.net/forecast/48855f5d4c031cbcf4b873fd2e97c61a/${lat},${lng}?units=si`
+console.log(res.data.results[0].formatted_address)
+  // console.log('res.data: ', res.data)
+  // console.log('res.data.results', res.data.results)
+  // console.log('res.data.results[0]', res.data.results[0])
 }).catch((e) => {
   if (e.code === 'ENOTFOUND'){
     console.log('unable to connect to API servers')
